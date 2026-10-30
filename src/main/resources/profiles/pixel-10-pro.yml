@@ -1,0 +1,22 @@
+schema: 1
+id: pixel-10-pro
+name: Pixel 10 Pro
+type: phone
+
+display:
+  width: 1280
+  height: 2856
+  density: 480
+
+# Published RAM with Android Studio's 10 GiB emulator storage default.
+emulator:
+  ramMiB: 16384
+  storageGiB: 10
+
+frame:
+  directory: device-frames/pixel-10-pro
+  width: 1410
+  height: 2968
+  screenX: 59
+  screenY: 60
+  cornerRadius: 99

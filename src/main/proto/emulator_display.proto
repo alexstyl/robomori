@@ -1,0 +1,66 @@
+// Wire-compatible subset of the Android Emulator controller protocol.
+// Source: https://android.googlesource.com/platform/tools/base/+/refs/heads/mirror-goog-studio-main/emulator/proto/emulator_controller.proto
+// Copyright (C) 2018 The Android Open Source Project
+// Licensed under the Apache License, Version 2.0 (https://www.apache.org/licenses/LICENSE-2.0).
+syntax = "proto3";
+package android.emulation.control;
+option java_package = "com.avdbuddy.emulator.protocol";
+option java_multiple_files = true;
+
+message Touch {
+  int32 x = 1;
+  int32 y = 2;
+  int32 identifier = 3;
+  int32 pressure = 4;
+}
+
+message TouchEvent {
+  repeated Touch touches = 1;
+  int32 display = 2;
+}
+
+message KeyboardEvent {
+  string text = 5;
+}
+
+message ClipData {
+  string text = 1;
+}
+
+message ParameterValue {
+  repeated float data = 1 [packed = true];
+}
+
+message PhysicalModelValue {
+  enum PhysicalType { POSITION = 0; ROTATION = 1; }
+  PhysicalType target = 1;
+  ParameterValue value = 3;
+  enum Interpolation { SMOOTH = 0; STEP = 1; }
+  Interpolation interpolation = 4;
+}
+
+message ImageFormat {
+  enum ImgFormat { PNG = 0; RGBA8888 = 1; RGB888 = 2; }
+  ImgFormat format = 1;
+  Rotation rotation = 2;
+  uint32 width = 3;
+  uint32 height = 4;
+  uint32 display = 5;
+}
+
+message Rotation {
+  enum SkinRotation { PORTRAIT = 0; LANDSCAPE = 1; REVERSE_PORTRAIT = 2; REVERSE_LANDSCAPE = 3; }
+  SkinRotation rotation = 1;
+  double xAxis = 2;
+  double yAxis = 3;
+  double zAxis = 4;
+}
+
+message Image {
+  ImageFormat format = 1;
+  uint32 width = 2;
+  uint32 height = 3;
+  bytes image = 4;
+  uint32 seq = 5;
+  uint64 timestamp_us = 6;
+}

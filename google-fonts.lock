@@ -1,0 +1,10 @@
+# Google Fonts lockfile. Commit this file. Delete an entry to resolve it again.
+Family0.license.family=Inter
+Family0.license.sha256=5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57
+Family0.license.url=https://raw.githubusercontent.com/google/fonts/main/ofl/inter/OFL.txt
+googlefonts_family0_400_normal.family=Inter
+googlefonts_family0_400_normal.sha256=1b08e7fc267a5c7e1d614100f604b83e7e8a0be241f0f288faa2b3ac93a683ba
+googlefonts_family0_400_normal.url=https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf
+googlefonts_family0_700_normal.family=Inter
+googlefonts_family0_700_normal.sha256=b37284b5701b6b168dfc770aa1a4ac492106422fd3ba76bc7641e37434e8019c
+googlefonts_family0_700_normal.url=https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf

@@ -1,0 +1,22 @@
+schema: 1
+id: pixel-10a
+name: Pixel 10a
+type: phone
+
+display:
+  width: 1080
+  height: 2424
+  density: 420
+
+# Published RAM with Android Studio's 10 GiB emulator storage default.
+emulator:
+  ramMiB: 8192
+  storageGiB: 10
+
+frame:
+  directory: device-frames/pixel-10a
+  width: 1218
+  height: 2553
+  screenX: 65
+  screenY: 64
+  cornerRadius: 87

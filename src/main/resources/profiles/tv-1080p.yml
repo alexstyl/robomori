@@ -1,0 +1,23 @@
+schema: 1
+id: tv-1080p
+name: Android TV (1080p)
+type: tv
+
+display:
+  width: 1920
+  height: 1080
+  density: 320
+
+# Android Studio's TV defaults, with its 10 GiB emulator storage default.
+emulator:
+  ramMiB: 2048
+  storageGiB: 10
+
+frame:
+  directory: device-frames/tv-1080p
+  # Use the complete bitmap, including the stand.
+  width: 2090
+  height: 1255
+  screenX: 85
+  screenY: 59
+  cornerRadius: 0

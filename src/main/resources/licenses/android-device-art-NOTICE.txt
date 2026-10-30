@@ -1,0 +1,10 @@
+Android device artwork
+Copyright The Android Open Source Project
+Distributed under the Apache License, Version 2.0.
+Source: https://github.com/JetBrains/android
+Revision: 9d7cbe006302ed231588a3c875abb5223e9c096f
+Files: artwork/resources/device-art-resources/pixel_10/{layout,back.webp,mask.webp}
+       artwork/resources/device-art-resources/pixel_10a/{layout,back.webp,mask.webp}
+       artwork/resources/device-art-resources/pixel_10_pro/{layout,back.webp,mask.webp}
+       artwork/resources/device-art-resources/pixel_10_pro_xl/{layout,back.webp,mask.webp}
+The bundled frame files are unmodified.

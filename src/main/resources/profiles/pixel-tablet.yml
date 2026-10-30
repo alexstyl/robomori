@@ -1,0 +1,23 @@
+schema: 1
+id: pixel-tablet
+name: Pixel Tablet
+type: tablet
+
+display:
+  width: 2560
+  height: 1600
+  density: 320
+
+# Published RAM with Android Studio's 10 GiB emulator storage default.
+emulator:
+  ramMiB: 8192
+  storageGiB: 10
+
+frame:
+  directory: device-frames/pixel-tablet
+  # Use the complete bitmap, including the bezel around the landscape screen.
+  width: 2798
+  height: 1837
+  screenX: 119
+  screenY: 117
+  cornerRadius: 32

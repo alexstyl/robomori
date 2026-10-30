@@ -1,0 +1,36 @@
+schema: 1
+id: pixel-10-pro-fold
+name: Pixel 10 Pro Fold
+type: foldable
+
+# The open inner screen. The emulator folds to the cover screen below.
+display:
+  width: 2076
+  height: 2152
+  density: 390
+
+# Published RAM with Android Studio's 10 GiB emulator storage default.
+emulator:
+  ramMiB: 16384
+  storageGiB: 10
+
+frame:
+  directory: device-frames/pixel-10-pro-fold
+  # Use the complete bitmap, including the hinge and side buttons.
+  width: 2201
+  height: 2268
+  screenX: 62
+  screenY: 58
+  cornerRadius: 64
+
+folded:
+  display:
+    width: 1080
+    height: 2364
+  frame:
+    directory: device-frames/pixel-10-pro-fold-closed
+    width: 1236
+    height: 2495
+    screenX: 84
+    screenY: 66
+    cornerRadius: 75

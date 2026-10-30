@@ -1,0 +1,23 @@
+schema: 1
+id: pixel-watch-4-45mm
+name: Pixel Watch 4 (45mm)
+type: wear
+
+display:
+  width: 456
+  height: 456
+  density: 320
+
+# Published RAM with Android Studio's 10 GiB emulator storage default.
+emulator:
+  ramMiB: 2048
+  storageGiB: 10
+
+frame:
+  directory: device-frames/pixel-watch-4-45mm
+  # AvdBuddy-drawn case, including the crown on the right edge.
+  width: 606
+  height: 570
+  screenX: 57
+  screenY: 57
+  cornerRadius: 228
