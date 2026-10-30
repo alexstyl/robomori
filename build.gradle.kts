@@ -152,7 +152,7 @@ nucleus {
                 publishMode = PublishMode.Never
             }
             macOS {
-                bundleID = "com.alexstyl.avdbuddy"
+                bundleID = "com.alexstyl.robomori"
                 iconFile.set(project.file("packaging/app-icon.icns"))
                 minimumSystemVersion = "12.0"
                 packageBuildVersion = macBuildNumber
