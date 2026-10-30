@@ -89,9 +89,18 @@ class AppUpdates internal constructor(private val scope: CoroutineScope, private
     }
     suspend fun monitor() {
         if (!canCheck) return
+        var nextUpdateCheck: Long? = null
         while (currentCoroutineContext().isActive) {
-            if (automatic) check()
-            delay(12 * 60 * 60 * 1000L)
+            val now = System.nanoTime()
+            if (automatic && (nextUpdateCheck == null || now - nextUpdateCheck >= 0)) {
+                check()
+                nextUpdateCheck = now + 12 * 60 * 60 * 1_000_000_000L
+            } else {
+                val before = license.receipt
+                license.refresh()
+                if (automatic && before != license.receipt) check()
+            }
+            delay(15 * 60 * 1000L)
         }
     }
     fun check() {
@@ -101,11 +110,13 @@ class AppUpdates internal constructor(private val scope: CoroutineScope, private
         }
         if (downloaded != null) return
         if (!canCheck) return
-        val receipt = license.receipt
         preferences = OperationState.Idle
         state = AppUpdateState.Checking(available)
         scope.launch {
+            var receipt = license.receipt
             try {
+                license.refresh()
+                receipt = license.receipt
                 val response = request(buildJsonObject {
                     put("product", "avdbuddy"); put("platform", checkNotNull(platform))
                     receipt?.let { put("receipt", it) }

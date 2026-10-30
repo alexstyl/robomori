@@ -4,10 +4,48 @@ import kotlinx.coroutines.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
+import java.security.KeyPairGenerator
+import java.security.MessageDigest
+import java.security.Signature
+import java.util.Base64
+import kotlinx.serialization.json.*
 import kotlin.test.*
 
 class LicenseOperationTest {
     @TempDir lateinit var root: File
+
+    @Test fun `background refresh saves the renewed receipt`(): Unit = runBlocking {
+        val keys = KeyPairGenerator.getInstance("Ed25519").generateKeyPair()
+        val publicKey = Base64.getEncoder().encodeToString(keys.public.encoded.takeLast(32).toByteArray())
+        val device = "refresh-test-device"
+        File(root, "license-device-id").writeText(device)
+        fun receipt(until: Long): JsonObject {
+            val claims = buildJsonObject {
+                put("schema", 1); put("issuer", LICENSE_ORIGIN); put("product", "avdbuddy"); put("perpetual", true)
+                put("device_hash", MessageDigest.getInstance("SHA-256").digest(device.toByteArray()).joinToString("") { "%02x".format(it) })
+                put("updates_until", until)
+            }
+            val payload = Base64.getUrlEncoder().withoutPadding().encodeToString(claims.toString().toByteArray())
+            val signature = Signature.getInstance("Ed25519").apply { initSign(keys.private); update(payload.toByteArray()) }.sign()
+            return buildJsonObject { put("algorithm", "Ed25519"); put("key_id", "primary"); put("payload", payload); put("signature", Base64.getEncoder().encodeToString(signature)) }
+        }
+        File(root, "license-receipt.json").writeText(receipt(1).toString())
+        val renewed = receipt(2)
+        val license = AppLicense(this, root, origin = LICENSE_ORIGIN, publicKey = publicKey, request = { path, _ ->
+            assertEquals("/api/v1/refresh", path)
+            buildJsonObject { put("receipt", renewed) }
+        })
+        license.refresh()
+        assertEquals(2L, license.updatesUntil?.epochSecond)
+        assertEquals(renewed, Json.parseToJsonElement(File(root, "license-receipt.json").readText()))
+    }
+
+    @Test fun `offline refresh preserves the existing receipt`(): Unit = runBlocking {
+        val license = licensedForTest(this, root) { _, _ -> throw java.io.IOException("offline") }
+        val old = assertNotNull(license.receipt)
+        license.refresh()
+        assertEquals(old, license.receipt)
+    }
 
     @Test fun `blank key produces missing key state`(): Unit = runBlocking {
         val license = AppLicense(this, root, request = { _, _ -> error("Unexpected request") })

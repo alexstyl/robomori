@@ -1,6 +1,6 @@
 name: avdbuddy
 description: Android Virtual Device manager for Compose Desktop.
-version: 0.7.1
+version: 1.0.0
 plugins:
   kotlin-jvm: org.jetbrains.kotlin.jvm:2.4.0
   compose: org.jetbrains.compose:1.12.0

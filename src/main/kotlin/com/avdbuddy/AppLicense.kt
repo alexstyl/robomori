@@ -96,6 +96,24 @@ class AppLicense internal constructor(private val scope: CoroutineScope, directo
     val updatesUntil: Instant? get() = verifiedLicense?.updatesUntil
     val updatesThrough: String? get() = updatesUntil?.atZone(ZoneOffset.UTC)?.toLocalDate()?.toString()
 
+    internal suspend fun refresh() {
+        val current = receipt ?: return
+        if (working) return
+        try {
+            val saved = withContext(Dispatchers.IO) {
+                val id = deviceId()
+                val response = request("/api/v1/refresh", buildJsonObject {
+                    put("receipt", current); put("product", "avdbuddy"); put("device_id", id)
+                }).getValue("receipt").jsonObject
+                verified(response, id)
+            }
+            if (receipt != current || working || updatesUntil?.let { !saved.updatesUntil.isAfter(it) } != false) return
+            atomicWrite(receiptFile, saved.receipt.toString())
+            verifiedLicense = saved
+        } catch (e: CancellationException) { throw e }
+        catch (_: Exception) { /* Keep the last verified offline receipt. */ }
+    }
+
     fun activate(key: String) {
         if (working) return
         if (key.isBlank()) { operation = LicenseOperation.MissingKey; return }

@@ -10,7 +10,8 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
 /** A license that verifies offline, for tests that exercise licensed features. */
-internal fun licensedForTest(scope: CoroutineScope, directory: File): AppLicense {
+internal fun licensedForTest(scope: CoroutineScope, directory: File,
+    request: suspend (String, kotlinx.serialization.json.JsonObject) -> kotlinx.serialization.json.JsonObject = { path, input -> licenseRequest(path, input) }): AppLicense {
     directory.mkdirs()
     val deviceId = "capture-test-device"
     File(directory, "license-device-id").writeText(deviceId)
@@ -32,5 +33,5 @@ internal fun licensedForTest(scope: CoroutineScope, directory: File): AppLicense
         put("payload", payload)
         put("signature", Base64.getEncoder().encodeToString(signature))
     }.toString())
-    return AppLicense(scope, directory, origin = LICENSE_ORIGIN, publicKey = publicKey)
+    return AppLicense(scope, directory, origin = LICENSE_ORIGIN, publicKey = publicKey, request = request)
 }
